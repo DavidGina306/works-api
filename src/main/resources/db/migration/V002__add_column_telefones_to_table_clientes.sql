@@ -1,0 +1,1 @@
+alter table cliente add column telefones varchar(200) not null;
