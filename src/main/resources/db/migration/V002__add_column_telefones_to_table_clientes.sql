@@ -1,1 +1,1 @@
-alter table cliente add column telefones varchar(200) not null;
+alter table clientes add column telefones varchar(200) not null;

@@ -1,6 +1,5 @@
 package com.orderworks.oswork.domain.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,7 +7,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@Entity
+@Entity(name = "clientes")
 public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +38,10 @@ public class Cliente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getTelefone() {
+	public String getTelefones() {
 		return telefones;
 	}
-	public void setTelefone(String telefones) {
+	public void setTelefones(String telefones) {
 		this.telefones = telefones;
 	}
 	

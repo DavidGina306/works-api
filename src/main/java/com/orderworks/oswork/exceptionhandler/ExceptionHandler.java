@@ -13,8 +13,23 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.orderworks.oswork.domain.execption.WorkExecption;
+
 @ControllerAdvice
 public class ExceptionHandler extends ResponseEntityExceptionHandler{
+	@org.springframework.web.bind.annotation.ExceptionHandler(WorkExecption.class)
+	public ResponseEntity<Object> handleNegocio(WorkExecption ex, WebRequest request) {
+		var status = HttpStatus.BAD_REQUEST;
+		var problem = new Problems();
+		problem.setTitle(ex.getMessage());
+		problem.setStatus(status.value());
+		problem.setDateTime(LocalDateTime.now());
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+	}
+	
+	
+	
+	
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
