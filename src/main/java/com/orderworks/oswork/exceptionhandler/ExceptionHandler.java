@@ -1,6 +1,7 @@
 package com.orderworks.oswork.exceptionhandler;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 
 import org.springframework.http.HttpHeaders;
@@ -13,17 +14,29 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.orderworks.oswork.domain.execption.NotFoundEntityException;
 import com.orderworks.oswork.domain.execption.WorkExecption;
 
 @ControllerAdvice
 public class ExceptionHandler extends ResponseEntityExceptionHandler{
+	
+	@org.springframework.web.bind.annotation.ExceptionHandler(NotFoundEntityException.class)
+	public ResponseEntity<Object> handleNotFoundEntityException(WorkExecption ex, WebRequest request) {
+		var status = HttpStatus.NOT_FOUND;
+		var problem = new Problems();
+		problem.setTitle(ex.getMessage());
+		problem.setStatus(status.value());
+		problem.setDateTime(OffsetDateTime.now());
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+	}
+	
 	@org.springframework.web.bind.annotation.ExceptionHandler(WorkExecption.class)
 	public ResponseEntity<Object> handleNegocio(WorkExecption ex, WebRequest request) {
 		var status = HttpStatus.BAD_REQUEST;
 		var problem = new Problems();
 		problem.setTitle(ex.getMessage());
 		problem.setStatus(status.value());
-		problem.setDateTime(LocalDateTime.now());
+		problem.setDateTime(OffsetDateTime.now());
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
 	
@@ -38,7 +51,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler{
 		var problema = new Problems();
 		problema.setStatus(status.value());
 		problema.setTitle("Um ou mais campos estão incorretos no preenchimento, tente novamente");
-		problema.setDateTime(LocalDateTime.now());
+		problema.setDateTime(OffsetDateTime.now());
 		var fields = new ArrayList<Fields>();
 		for (ObjectError error: ex.getBindingResult().getAllErrors()) {
 			String name = (((FieldError) error).getField());
