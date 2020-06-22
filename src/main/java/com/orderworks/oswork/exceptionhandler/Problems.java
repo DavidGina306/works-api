@@ -1,6 +1,7 @@
 package com.orderworks.oswork.exceptionhandler;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,7 +11,7 @@ import com.orderworks.oswork.exceptionhandler.Fields;
 public class Problems {
 	private Integer status;
 	private String title;
-	private LocalDateTime dateTime;
+	private OffsetDateTime dateTime;
 	private List<Fields> fields;
 	
 	public Integer getStatus() {
@@ -25,10 +26,10 @@ public class Problems {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public LocalDateTime getDateTime() {
+	public OffsetDateTime getDateTime() {
 		return dateTime;
 	}
-	public void setDateTime(LocalDateTime dateTime) {
+	public void setDateTime(OffsetDateTime dateTime) {
 		this.dateTime = dateTime;
 	}
 	public List<Fields> getFields() {
